@@ -1,0 +1,8 @@
+USE directory;
+PRAGMA yt.TmpFolder = "//home/market-suptech-tmp";
+PRAGMA yt.QueryCacheMode="disable";
+SELECT *
+FROM hahn.`home/logfeller/logs/taxi/production/taxi-chatterbox-stq-yandex-taxi-chatterbox-stq3-log/1d/2022-11-25`
+WHERE text LIKE "Offer % task to nkvashnina supporter"
+and iso_eventtime > "2022-11-25 04:00:00"
+and iso_eventtime < "2022-11-25 23:00:00";
