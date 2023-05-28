@@ -10,7 +10,7 @@ $a = SELECT
 []::ConvertToString(history_list.line) as line,
 row_number() over([]::ConvertToString(history_list.line) order by []::ConvertToString(history_list.line) desc) as RowNum
 from []
-FLATTEN list BY (listmap:ConvertToList(history), ($history) -> {RETURN Yson::Serialize($history)}) AS history_list)
+FLATTEN list BY (listmap:ConvertToList(history), ($history) -> {RETURN ::Serialize($history)}) AS history_list)
 
 WHERE []:ConvertToString() like "[]_%"
 AND  $date(created) BETWEEN '' AND '';
