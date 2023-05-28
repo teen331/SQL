@@ -1,25 +1,19 @@
 USE directory;
-PRAGMA yson.DisableStrict;
-PRAGMA yson.AutoConvert;
-PRAGMA AnsiInForEmptyOrNullableItemsCollections;
-PRAGMA yt.TmpFolder = "//home/market-suptech-tmp";
-PRAGMA yt.QueryCacheMode="disable";
-
 $format = DateTime::Format('%Y-%m-%d %H:%M:%S');
 $date = ($dt) -> {
-    $dt = CAST($dt AS Int32) + 10800;
+    $dt = CAST($dt AS Int32) + [];
     RETURN $format(DateTime::Split(DateTime::FromSeconds(CAST($dt AS Uint32))))
 };
 
 
 $a = SELECT
-Yson::ConvertToString(history_list.line) as line,
-row_number() over(partition by Yson::ConvertToString(history_list.line) order by Yson::ConvertToString(history_list.line) desc) as RowNum
-from `//home/taxi/production/services/support-taxi/support_chatterbox` 
-FLATTEN list BY (listmap(Yson::ConvertToList(history), ($history) -> {RETURN Yson::Serialize($history)}) AS history_list)
+[]::ConvertToString(history_list.line) as line,
+row_number() over([]::ConvertToString(history_list.line) order by []::ConvertToString(history_list.line) desc) as RowNum
+from []
+FLATTEN list BY (listmap:ConvertToList(history), ($history) -> {RETURN Yson::Serialize($history)}) AS history_list)
 
-WHERE Yson::ConvertToString(history_list.line) like "market_%"
-AND  $date(created) BETWEEN '2022-01-01 00:00:00' AND '2022-01-31 23:59:59';
+WHERE []:ConvertToString() like "[]_%"
+AND  $date(created) BETWEEN '' AND '';
 
 SELECT
 a.line
