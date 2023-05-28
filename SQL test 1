@@ -1,0 +1,21 @@
+USE directory;
+$format = DateTime::Format('%Y-%m-%d %H:%M:%S');
+$date = ($dt) -> {
+    $dt = CAST($dt AS Int32) + [];
+    RETURN $format(DateTime::Split(DateTime::FromSeconds(CAST($dt AS Uint32))))
+};
+
+
+$a = SELECT
+[]::ConvertToString(history_list.line) as line,
+row_number() over([]::ConvertToString(history_list.line) order by []::ConvertToString(history_list.line) desc) as RowNum
+from []
+FLATTEN list BY (listmap:ConvertToList(history), ($history) -> {RETURN Yson::Serialize($history)}) AS history_list)
+
+WHERE []:ConvertToString() like "[]_%"
+AND  $date(created) BETWEEN '' AND '';
+
+SELECT
+a.line
+FROM $a as a
+Where RowNum = 1
