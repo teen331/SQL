@@ -1,6 +1,0 @@
-USE directory;
-SELECT *
-FROM `[]`
-WHERE text LIKE "Offer %"
-and iso_eventtime > "date"
-and iso_eventtime < "date";
